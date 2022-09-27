@@ -1,0 +1,33 @@
+# Python package
+
+trigger:
+- master
+
+pool:
+  vmImage: ubuntu-latest
+
+variables:
+  sonarCloudEndpointName: 'python'
+  sonarCloudOrganization: 'vi11iv'
+  sonarCloudProjectKey: 'vi11iv_python'
+  sonarCloudProjectName: 'vi11iv'
+
+steps:
+- task: UsePythonVersion@0
+  inputs:
+    versionSpec: '$(python.version)'
+  displayName: 'Use Python $(python.version)'
+
+
+
+- task: SonarCloudPrepare@1
+  inputs:
+    SonarCloud: '$(sonarCloudEndpointName)'
+    organization: '$(sonarCloudOrganization)'
+    scannerMode: 'CLI'
+    configMode: 'manual'
+    cliProjectKey: '$(sonarCloudProjectKey)'
+    cliProjectName: '$(sonarCloudProjectName)'
+    cliProjectVersion: '1.0'
+    cliSources: '.'
+
